@@ -1,5 +1,7 @@
 package madlab.androidedu;
 
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,13 @@ public class MainActivity extends AppCompatActivity {
     private Button pauseButton;
     private Button restartButton;
 
+    private long startTime = 0;
+    long timeElapsed = 0;
+    long pauseTime = 0;
+    long currentTime = 0;
+
+    private Handler updateHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,19 +33,44 @@ public class MainActivity extends AppCompatActivity {
         pauseButton = (Button) findViewById(R.id.pause_button);
         restartButton = (Button) findViewById(R.id.restart_button);
 
-        timer.setText("This is the timer");
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "This is a toast", Toast.LENGTH_SHORT).show();
+                startTime = SystemClock.uptimeMillis();
+                updateHandler.postDelayed(updateTimer, 0);
+
             }
         });
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timer.setText("00:00:00");
+                timer.setText("00:00:000");
+                pauseTime = 0;
+                updateHandler.removeCallbacks(updateTimer);
             }
         });
-
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseTime += timeElapsed;
+                updateHandler.removeCallbacks(updateTimer);
+            }
+        });
     }
+    private Runnable updateTimer = new Runnable() {
+        @Override
+        public void run() {
+            timeElapsed = SystemClock.uptimeMillis() - startTime;
+            currentTime = pauseTime + timeElapsed;
+            int secs = (int) (currentTime / 1000);
+            int mins = secs / 60;
+            String timeString =
+                    String.format("%02d", mins) + ":" +
+                    String.format("%02d", secs % 60) + ":" +
+                    String.format("%03d", currentTime % 1000);
+            timer.setText(timeString);
+            updateHandler.postDelayed(this, 0);
+
+        }
+    };
 }
