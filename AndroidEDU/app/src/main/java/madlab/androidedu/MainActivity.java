@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                     pauseTime += timeElapsed;
                     updateHandler.removeCallbacks(updateTimer);
                 }
-
             }
         });
         restartButton.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent sendIntent = new Intent(getBaseContext(), ShareActivity.class);
                 RUNNING_FLAG = false;
                 pauseTime += timeElapsed;
+                timeElapsed = 0;
                 updateHandler.removeCallbacks(updateTimer);
                 sendIntent.putExtra("time elapsed", currentTime);
                 startActivity(sendIntent);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     String.format("%02d", secs % 60) + ":" +
                     String.format("%03d", currentTime % 1000);
             timer.setText(timeString);
-            updateHandler.postDelayed(this, 0);
+            updateHandler.post(this);
 
         }
     };
