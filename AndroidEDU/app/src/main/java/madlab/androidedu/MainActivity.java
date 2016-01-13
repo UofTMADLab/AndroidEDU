@@ -1,5 +1,6 @@
 package madlab.androidedu;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView timer;
     private Button startButton;
-    private Button pauseButton;
+    private Button shareButton;
     private Button restartButton;
 
     private long startTime = 0;
     long timeElapsed = 0;
     long pauseTime = 0;
     long currentTime = 0;
+    boolean RUNNING_FLAG = false;
 
     private Handler updateHandler = new Handler();
 
@@ -30,14 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
         timer = (TextView) findViewById(R.id.timer);
         startButton = (Button) findViewById(R.id.start_button);
-        pauseButton = (Button) findViewById(R.id.pause_button);
+        shareButton = (Button) findViewById(R.id.share_button);
         restartButton = (Button) findViewById(R.id.restart_button);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime = SystemClock.uptimeMillis();
-                updateHandler.postDelayed(updateTimer, 0);
+                if (!RUNNING_FLAG){
+                    startButton.setText("Pause");
+                    RUNNING_FLAG = true;
+                    startTime = SystemClock.uptimeMillis();
+                    updateHandler.postDelayed(updateTimer, 0);
+                } else {
+                    startButton.setText("Start");
+                    RUNNING_FLAG = false;
+                    pauseTime += timeElapsed;
+                    updateHandler.removeCallbacks(updateTimer);
+                }
 
             }
         });
@@ -49,11 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 updateHandler.removeCallbacks(updateTimer);
             }
         });
-        pauseButton.setOnClickListener(new View.OnClickListener() {
+        shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent sendIntent = new Intent(getBaseContext(), ShareActivity.class);
+                RUNNING_FLAG = false;
                 pauseTime += timeElapsed;
                 updateHandler.removeCallbacks(updateTimer);
+                sendIntent.putExtra("time elapsed", currentTime);
+                startActivity(sendIntent);
             }
         });
     }
