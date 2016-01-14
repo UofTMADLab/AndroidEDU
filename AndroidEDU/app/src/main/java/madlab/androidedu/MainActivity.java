@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent sendIntent = new Intent(getBaseContext(), ShareActivity.class);
                 RUNNING_FLAG = false;
+                startButton.setText("Start");
                 pauseTime += timeElapsed;
                 timeElapsed = 0;
                 updateHandler.removeCallbacks(updateTimer);
