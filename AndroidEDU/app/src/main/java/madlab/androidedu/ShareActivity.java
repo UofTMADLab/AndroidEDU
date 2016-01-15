@@ -40,10 +40,9 @@ public class ShareActivity extends AppCompatActivity {
     String format (long time){
         int secs = (int) (time / 1000);
         int mins = secs / 60;
-        String timeString =
-                String.format("%02d", mins) + ":" +
+        return String.format("%02d", mins) + ":" +
                         String.format("%02d", secs % 60) + ":" +
                         String.format("%03d", time % 1000);
-        return timeString;
+
     }
 }
