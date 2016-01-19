@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+//    Initialize variables of the elements we use in the layout
     private TextView timer;
     private Button startButton;
     private Button pauseButton;
@@ -19,12 +20,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Set the element variables to the appropriate layout element by using their ids
         timer = (TextView) findViewById(R.id.timer);
         startButton = (Button) findViewById(R.id.start_button);
         pauseButton = (Button) findViewById(R.id.pause_button);
         restartButton = (Button) findViewById(R.id.restart_button);
 
+//        The text in the TextView can also be changed with code!
         timer.setText("This is the timer");
+
+//        To actually make the buttons do something when we click them, we must implement the
+//        OnClickListener of the buttons
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
