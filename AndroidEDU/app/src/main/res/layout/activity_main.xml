@@ -10,6 +10,7 @@
     tools:context="madlab.androidedu.MainActivity"
     android:background="#00204E">
 
+    <!-- We create a TextView here to hold the actual timer -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +21,9 @@
         android:id="@+id/timer"
         android:textSize="40sp"
         android:textColor="#FFFFFF"/>
-
+    <!-- 3 Buttons used, Start, Pause, and Restart -->
+    <!-- Since we placed the buttons into these positions using drag & drop and a RelativeLayout,
+         these buttons are each relative to another element of the layout -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
