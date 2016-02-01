@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-//    Initialize variables of the elements we use in the layout
+//    Creation of variables of the elements we use in the layout
     private TextView timer;
     private Button startButton;
     private Button shareButton;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Set the element variables to the appropriate layout element by using their ids
+//        Set the element variables to the appropriate layout element by using their ids (Initializing Variables)
         timer = (TextView) findViewById(R.id.timer);
         startButton = (Button) findViewById(R.id.start_button);
         shareButton = (Button) findViewById(R.id.share_button);
